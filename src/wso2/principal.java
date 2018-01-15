@@ -16,13 +16,29 @@ public class principal {
 
 	public static void main(String[] args) throws Exception {		
 		//Autenticação
-		String token = "fbbebab6-2e98-3cf1-977a-1cfb480fa707";
+		String token = "e90130f4-cb72-3c2b-bbb2-7380f213cae4";
 		System.out.println(validarToken(token));
+		System.out.println(getRoles(token));
+		System.out.println(getActivatedRoles(token));
 	}
 	
 	public static String validarToken(String token) throws Exception
 	{
 		String url = "https://localhost:8443/securitycontrols/api/validate-token?accessToken=" + token;
+		String response = HttpConnection.sendGet(url);
+		return response;
+	}
+	
+	public static String getRoles(String token) throws Exception
+	{
+		String url = "https://localhost:8443/securitycontrols/api/rbac?accessToken=" + token;
+		String response = HttpConnection.sendGet(url);
+		return response;
+	}
+	
+	public static String getActivatedRoles(String token) throws Exception
+	{
+		String url = "https://localhost:8443/securitycontrols/api/rbac/activated?accessToken=" + token;
 		String response = HttpConnection.sendGet(url);
 		return response;
 	}
