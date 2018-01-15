@@ -18,6 +18,10 @@ public class HttpConnection
 		return send(url, "PUT");
 	}
 	
+	public static String sendDelete(String url) throws Exception {
+		return send(url, "DELETE");
+	}
+	
 	public static String send(String url, String verbo) throws Exception {
 
 		URL obj = new URL(url);
