@@ -16,17 +16,27 @@ public class principal {
 
 	public static void main(String[] args) throws Exception {		
 		//Autenticação
-		String token = "4acf83fc-00a0-37cb-bb68-1e5100db0333";
+		String token = "64b932c2-b851-33e4-b659-76fe237fe0cd";
 		String role = "doutorando";
+		
+		//TESTAR EXPORTAÇÃO DE PAPEL
+		System.out.println(validarToken(token));
+		System.out.println(getRoles(token));
+		System.out.println(addActivateRoles(token,role));
+		
+		System.out.println(exportRole(token, role));
+		System.out.println(dropActivateRoles(token,role));
+		System.out.println(getActivateRoles(token));
+		
 		//TESTAR CONTROLE DE ACESSO
-		String resource = "button";
+		/*String resource = "button";
 		String action = "read";
 		System.out.println(validarToken(token));
 		System.out.println(getRoles(token));
 		System.out.println(addActivateRoles(token,role));
 		System.out.println(requestAccess(token, resource, action));
 		System.out.println(dropActivateRoles(token,role));
-		System.out.println(getActivateRoles(token));
+		System.out.println(getActivateRoles(token));*/
 		
 		// TESTAR ATIVAÇÃO E SOD
 		/*
@@ -107,6 +117,13 @@ public class principal {
 	{
 		String url = "https://localhost:8443/securitycontrols/api/access-control?accessToken=" + token + "&resource=" + resource + "&action=" + action;
 		String response = HttpConnection.sendGet(url);
+		return response;
+	}
+	
+	public static String exportRole(String token, String role) throws Exception
+	{
+		String url = "https://localhost:8443/securitycontrols/api/wallet?accessToken=" + token + "&role=" + role;
+		String response = HttpConnection.sendPost(url);
 		return response;
 	}
 
