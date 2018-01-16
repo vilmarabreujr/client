@@ -16,13 +16,15 @@ public class principal {
 
 	public static void main(String[] args) throws Exception {		
 		//Autenticação
-		String token = "3252c994-2b79-3d1d-b2f8-16d724760c28";
+		String token = "4ca382e2-16a9-3576-a2ae-f009d0e0194d";
 		String role = "doutorando";
 		
 		//TESTAR EXPORTAÇÃO DE PAPEL
 		System.out.println(validarToken(token));
 		System.out.println(getRoles(token));
 		System.out.println(addActivateRoles(token,role));
+		System.out.println(exportRole(token, role));
+		
 		System.out.println(getActivateRoles(token));
 		String resource = "button";
 		String action = "read";
