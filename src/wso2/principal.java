@@ -1,5 +1,8 @@
 package wso2;
 
+import java.security.PrivateKey;
+import java.security.PublicKey;
+
 public class principal {
 	static 
 	{
@@ -16,23 +19,37 @@ public class principal {
 
 	public static void main(String[] args) throws Exception {		
 		//Autenticação
-		String token = "4ca382e2-16a9-3576-a2ae-f009d0e0194d";
+		String token = "e89e22f9-b700-3317-81b7-a818b1bf211a";
 		String role = "doutorando";
+		String domain = "utfpr";
+		
+		
+		//TESTAR A PESQUISA DE PAPÉIS
+		System.out.println(validarToken(token));
+		System.out.println(addActivateRoles(token,role));
+		System.out.println("-- Exporting the role: " + role + " to the domain: " + domain+ " --");
+		System.out.println(exportRole(token, role,domain));		
+		PrivateKey privateKey = RSA.loadPrivateKey("utfpr_private.key");
+		System.out.println("-- Requesting exported roles of domain: " + domain + " --");
+		String cipherRoles = getExportedRoles(token, domain);
+		System.out.println(cipherRoles);
+		System.out.println("-- Decrypt the exported roles with " + domain + " privateKey --");
+		String decipherROles = RSA.decrypt(cipherRoles, privateKey);
+		System.out.println(decipherROles);
+			
 		
 		//TESTAR EXPORTAÇÃO DE PAPEL
-		System.out.println(validarToken(token));
+		/*System.out.println(validarToken(token));
+		System.out.println(getTrustedDomains(token));
 		System.out.println(getRoles(token));
 		System.out.println(addActivateRoles(token,role));
-		System.out.println(exportRole(token, role));
-		
+		System.out.println(exportRole(token, role,domain));		
 		System.out.println(getActivateRoles(token));
 		String resource = "button";
 		String action = "read";
-		System.out.println(requestAccess(token, resource, action));
-		
-		//System.out.println(exportRole(token, role));
+		System.out.println(requestAccess(token, resource, action));		
 		System.out.println(dropActivateRoles(token,role));
-		System.out.println(getActivateRoles(token));
+		System.out.println(getActivateRoles(token));*/
 		
 		//TESTAR CONTROLE DE ACESSO
 		/*String resource = "button";
@@ -126,10 +143,24 @@ public class principal {
 		return response;
 	}
 	
-	public static String exportRole(String token, String role) throws Exception
+	public static String exportRole(String token, String role, String domain) throws Exception
 	{
-		String url = "https://localhost:8443/securitycontrols/api/wallet?accessToken=" + token + "&role=" + role;
+		String url = "https://localhost:8443/securitycontrols/api/wallet?accessToken=" + token + "&role=" + role+ "&domain=" + domain;
 		String response = HttpConnection.sendPost(url);
+		return response;
+	}	
+	
+	public static String getExportedRoles(String token, String domain) throws Exception
+	{
+		String url = "https://localhost:8443/securitycontrols/api/wallet?accessToken=" + token + "&domain=" + domain;
+		String response = HttpConnection.sendGet(url);
+		return response;
+	}
+
+	public static String getTrustedDomains(String token) throws Exception
+	{
+		String url = "https://localhost:8443/securitycontrols/api/domain?accessToken=" + token;
+		String response = HttpConnection.sendGet(url);
 		return response;
 	}
 
